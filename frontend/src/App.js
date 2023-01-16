@@ -7,7 +7,7 @@ import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
-import Login from './screens/Login';
+import LoginScreen from './screens/LoginScreen';
 
 const App = () => {
   return (
@@ -18,11 +18,10 @@ const App = () => {
         <main className='py-3'>
           <Container>
             <Routes>
-              {/* <Route path='*' element={<Navigate to='/homeScreen' replace />} /> */}
-              <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductScreen />} />
               <Route path='/cart/:id?' element={<CartScreen />} />
-              <Route path='/login' element={<Login />} />
+              <Route path='/login' element={<LoginScreen />} />
+              <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
