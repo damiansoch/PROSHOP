@@ -9,10 +9,8 @@ import {
   Form,
   Button,
   Card,
-  FormControl,
 } from 'react-bootstrap';
 
-import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 import { addToCart, removeFromCard } from '../actions/cartActions';
@@ -45,7 +43,7 @@ const CartScreen = ({ location }) => {
   };
 
   const checkoutHandler = () => {
-    navigate('/login?redirect=shipping');
+    navigate('/login?redirect=/shipping');
   };
 
   return (
