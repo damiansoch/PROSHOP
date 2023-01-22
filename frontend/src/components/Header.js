@@ -33,6 +33,7 @@ const Header = () => {
               <Link to={'/cart'} className='mx-3 my-auto'>
                 <i className='fas fa-shopping-cart me-1'></i>Cart
               </Link>
+              {/* dropdown */}
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <NavDropdown.Item
@@ -53,6 +54,33 @@ const Header = () => {
                   <i className='fas fa-user me-1'></i>
                   SignIn
                 </Link>
+              )}
+
+              {/* admin dropdown */}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown className='mx-3' title='ADMIN MENU' id='adminmenu'>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      navigate('/admin/userlist');
+                    }}
+                  >
+                    Users
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      navigate('/admin/productlist');
+                    }}
+                  >
+                    Products
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      navigate('/admin/orderlist');
+                    }}
+                  >
+                    Orders
+                  </NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
