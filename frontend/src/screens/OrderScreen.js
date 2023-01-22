@@ -38,7 +38,8 @@ const OrderScreen = () => {
 
       const script = document.createElement('script');
       script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.src = `https://www.paypal.com/sdk/js?currency=EUR&client-id=${clientId}`;
+
       script.async = true;
       script.onload = () => {
         setSdkReady(true);
@@ -209,9 +210,13 @@ const OrderScreen = () => {
                   {!sdkReady ? (
                     <Loader />
                   ) : (
+                    //paypal
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
+                      options={{
+                        currency: 'EUR',
+                      }}
                     />
                   )}
                 </ListGroup.Item>
