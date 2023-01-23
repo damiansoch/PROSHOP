@@ -10,7 +10,9 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, updateProduct } from '../actions/productActions';
+
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditScreen = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const ProductEditScreen = () => {
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(0.0);
   const [countInStock, setCountInStock] = useState(0);
 
   const dispatch = useDispatch();
@@ -30,24 +32,47 @@ const ProductEditScreen = () => {
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
+
   //
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-      dispatch(listProductDetails(productId));
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      navigate('/admin/productlist');
     } else {
-      setName(product.name);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setDescription(product.description);
-      setPrice(product.price);
-      setCountInStock(product.countInStock);
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetails(productId));
+      } else {
+        setName(product.name);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setDescription(product.description);
+        setPrice(product.price);
+        setCountInStock(product.countInStock);
+      }
     }
-  }, [product, dispatch, productId, navigate]);
+  }, [product, dispatch, productId, navigate, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    //update product
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        image,
+        brand,
+        category,
+        description,
+        price,
+        countInStock,
+      })
+    );
   };
 
   return (
@@ -58,8 +83,8 @@ const ProductEditScreen = () => {
       <FormContainer>
         <h1>Edit product</h1>
 
-        {/* {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-        {loadingUpdate && <Loader />} */}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+        {loadingUpdate && <Loader />}
 
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
@@ -78,6 +103,8 @@ const ProductEditScreen = () => {
             <Form.Label>Price</Form.Label>
             <Form.Control
               type='number'
+              min='0.00'
+              step='0.01'
               placeholder='Enter price €'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
