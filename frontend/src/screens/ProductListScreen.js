@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();
@@ -24,16 +24,25 @@ const ProductListScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts());
     } else {
       navigate('/login');
     }
-  }, [dispatch, userInfo, navigate]);
+  }, [dispatch, userInfo, navigate, successDelete]);
 
   const deleteHandler = (productId) => {
-    console.log(productId);
+    if (window.confirm(`Are sure you want to delete "${productId}" ? `)) {
+      dispatch(deleteProduct(productId));
+    }
   };
   const createProductHandler = () => {
     console.log('create');
@@ -51,6 +60,8 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       <h1>Users</h1>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
