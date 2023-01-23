@@ -212,7 +212,7 @@ const OrderScreen = () => {
                   ) : (
                     //paypal
                     <PayPalButton
-                      amount={order.totalPrice}
+                      amount={order.totalPrice.toFixed(2)}
                       onSuccess={successPaymentHandler}
                       options={{
                         currency: 'EUR',

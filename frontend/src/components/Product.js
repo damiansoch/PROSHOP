@@ -1,4 +1,4 @@
-import { Card } from 'react-bootstrap';
+import { Card, Image } from 'react-bootstrap';
 
 import Rating from './Rating';
 
@@ -8,7 +8,7 @@ const Product = ({ product }) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/products/${product._id}`}>
-        <Card.Img src={product.image} variant='top'></Card.Img>
+        <Card.Img fluid={true} as={Image} src={product.image}></Card.Img>
       </Link>
       <Card.Body>
         <Link to={`/products/${product._id}`}>
