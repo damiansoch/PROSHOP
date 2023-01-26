@@ -7,13 +7,14 @@ import {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 } from '../controllers/productController.js';
 
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').get(getProducts).post(protect, admin, createProduct);
+router.get('/top', getTopProducts);
 
 router
   .route('/:id')
@@ -22,5 +23,6 @@ router
   .put(protect, admin, updateProduct);
 
 router.route('/:id/reviews').post(protect, createProductReview);
+router.route('/').get(getProducts).post(protect, admin, createProduct);
 
 export default router;
