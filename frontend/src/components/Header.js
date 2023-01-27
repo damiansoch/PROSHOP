@@ -32,7 +32,7 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <SearchBox />
             <Nav className='ms-auto'>
-              <Link to={'/cart'} className='mx-3 my-auto'>
+              <Link to={'/cart'} className='mx-3 my-4'>
                 <i className='fas fa-shopping-cart me-1'></i>Cart
               </Link>
               {/* dropdown */}
@@ -53,7 +53,7 @@ const Header = () => {
                 </NavDropdown>
               ) : (
                 <Link to={'/login'} className='ms-3'>
-                  <i className='fas fa-user me-1'></i>
+                  <i className='fas fa-user me-1 my-3'></i>
                   SignIn
                 </Link>
               )}
