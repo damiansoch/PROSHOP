@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Helmet } from 'react-helmet';
+
 import { useParams } from 'react-router-dom';
 
 import { useEffect } from 'react';
@@ -12,6 +14,8 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 import { listProducts } from '../actions/productActions';
+import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta title={'Home'} />;{!keyword && <ProductCarousel />}
       <h1>Latest products</h1>
       {loading ? (
         <Loader />
